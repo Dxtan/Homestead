@@ -283,3 +283,13 @@ function xphp() {
 
     if ! $XDEBUG_ENABLED; then xoff; fi
 }
+
+function t() {
+  if [ -f vendor-test/bin/phpunit ]; then
+    vendor-test/bin/phpunit "$@"
+  elif [ -f vendor/bin/phpunit ]; then
+    vendor/bin/phpunit "$@"
+  else
+    phpunit "$@"
+  fi
+}
