@@ -11,6 +11,7 @@ homesteadYamlPath = File.expand_path("Homestead.yaml", File.dirname(__FILE__))
 homesteadJsonPath = File.expand_path("Homestead.json", File.dirname(__FILE__))
 afterScriptPath = "after.sh"
 customizationScriptPath = "user-customizations.sh"
+customizationInstallScriptPath = "user-install.sh"
 aliasesPath = "aliases"
 
 require File.expand_path(confDir + '/scripts/homestead.rb')
@@ -41,6 +42,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     if File.exist? customizationScriptPath then
         config.vm.provision "shell", path: customizationScriptPath, privileged: false, keep_color: true
+    end
+
+    if File.exist? customizationInstallScriptPath then
+        config.vm.provision "file", source: customizationInstallScriptPath, destination: "/tmp/after-install.sh"
     end
 
     if Vagrant.has_plugin?('vagrant-hostsupdater')
